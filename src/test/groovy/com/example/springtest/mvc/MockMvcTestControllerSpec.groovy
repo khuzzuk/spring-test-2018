@@ -40,10 +40,11 @@ class MockMvcTestControllerSpec extends Specification {
                 .content(dtoValue)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
 
+        def response = mockMvc.perform(builder).andReturn().response
+        def value = objectMapper.readValue(response.getContentAsString(), MyBeanDTO)
         then:
-        mockMvc.perform(builder).andReturn().response.status == 200
-        mockMvc.perform(builder).andReturn().response.status == 200
-        mockMvc.perform(builder).andReturn().response.status == 200
-        mockMvc.perform(builder).andReturn().response.status == 200
+        with(value) {
+            myValue == 'post value'
+        }
     }
 }
